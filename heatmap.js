@@ -1,4 +1,5 @@
 let json;
+let dataObj = {}
 
 let url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json';
 json = new XMLHttpRequest();
@@ -10,16 +11,30 @@ let newArr =[]
 json.onload = () => {
   if (json.readyState == 4 && json.status == 200) {
     json = json.response;
-    
-console.log(json.monthlyVariance)
   } else {
     console.log(`Error: ${json.status}`);
   }
-  newArr = json.monthlyVariance.slice()
-  console.log(newArr)
-  console.log(json.monthlyVariance.length)
-  document.getElementById("div").innerHTML = json[1]
+dataObj = json.monthlyVariance
+console.log(json.monthlyVariance.length)
+console.log(dataObj[1].year)
+  document.getElementById("div").innerHTML = dataObj[1].year
 }
+
+const w = 800;
+const h = 500;
+const padding = 50;
+
+let data = json.monthlyVariance
+
+let svg = d3.select('body')
+  .data("data")
+  .join()
+  .append('div')
+  .attr("fill", "blue")
+  .attr("width", w)
+  .attr("height", h)
+
+
 
 
 
