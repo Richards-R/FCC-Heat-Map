@@ -4,6 +4,7 @@ let data = [];
 let varianceArr = [];
 let varianceResultArr = [8.66];
 let varData = [];
+let yearArr = [];
 
 let url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json';
 json = new XMLHttpRequest();
@@ -48,15 +49,12 @@ data = json.monthlyVariance
 for (let i=0; i<data.length; i++){
   varianceArr.push(data[i].variance)
 }
-  console.log(varianceArr)
 
 for (let i=0; i<varianceArr.length; i++){
   varianceResultArr.push(json.baseTemperature + varianceArr[i])
 }
-console.log(varianceResultArr)
-console.log(data.month)
+
 varianceResultArr.shift()
-console.log(varianceResultArr)
 
   d3.select(".blocks")
   .selectAll("rect")
@@ -86,9 +84,19 @@ console.log(varianceResultArr)
 }
 
 const generateScales = () => {
-  // yearArr = scattArr.map((item) => {
-  //   return (item[0])
-  //   });                                                  
+ for (let i=0; i<data.length; i++){
+    yearArr.push(i+1753)
+  };
+  console.log(yearArr)   
+  
+  let monthArr = ["January","February","March","April","May","June","July",
+  "August","September","October","November","December"];
+  
+  let numArr =[ 1,  2,  3 , 4 , 5,  6,  7,  8,  9, 10, 11, 12]
+
+  console.log(numArr)   
+  
+  
 
   // timeArr = scattArr.map((item) => {
   //   return (item[1]).split(":")
@@ -110,29 +118,33 @@ const generateScales = () => {
   //   dotArr.push([scattArr[i][0], totalSecondsArr[i], scattArr[i][2], scattArr[i][1], scattArr[i][3], scattArr[i][4], scattArr[i][5]])}  
 
   xAxisScale = d3.scaleLinear()
-    .domain([1753, 2015])
-    .range([padding*2, w - padding*2])
+    .domain([1752, 2016])
+    .range([padding*2+4, w - padding*1.5-8])
   
-  yAxisScale = d3.scaleLinear()
-    .domain([0, 11])
-    .range([padding/2, h-padding/2])
+  yAxisScale = d3.scaleTime()
+  .domain([new Date(2023, 0, 1), new Date(2023, 10, 31)])
+  //.domain([d3.min(monthArr),d3.max(monthArr)])
+    .range([padding+15, h-padding-5])
 }
 
 const  generateAxes = () =>{
   let xAxis = d3.axisBottom(xAxisScale)
-                .tickFormat(d3.timeFormat("%Y"));
+                .tickFormat(d3.format("d"));
   let yAxis = d3.axisLeft(yAxisScale)
-                .tickFormat(d3.timeFormat("%B"));
+                .tickFormat(d3.timeFormat("%B"))
+                //.ticks(12)
+                //.tickValues(["January","February","March","April","May","June","July", "August","September","October","November","December"])
 
 d3.select("svg")
   .append("g")
     .call(xAxis)
-    .attr("transform", "translate(0," + (h - padding) + ")")
+    .attr("stroke","brown")
+    .attr("transform", "translate(0," + (h - padding-22) + ")")
     .attr('id','x-axis')
 
   .append("g")
     .call(yAxis)
-    .attr("transform", "translate (" + (padding*2) + ", -445)")
+    .attr("transform", "translate (" + (padding*2+3) + ", -485)")
     .attr('id','y-axis')
 }
 
