@@ -19,8 +19,7 @@ const w = 600;
 const h = 500;
 const padding = 50;
 
-var div = d3
-  .select('body')
+var div = d3.select('body')
   .append('div')
   .attr('class', 'tooltip')
   .attr('id', 'tooltip')
