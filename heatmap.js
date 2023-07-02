@@ -5,6 +5,7 @@ let varianceArr = [];
 let varianceResultArr = [8.66];
 let varData = [];
 let yearArr = [];
+let degreeHeat = 0;
 
 let url = 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json';
 json = new XMLHttpRequest();
@@ -32,10 +33,17 @@ const w = 1500
 const h = 600
 const padding = 125
 
+var div = d3.select('body')
+  .append('div')
+  .attr('class', 'tooltip')
+  .attr('id', 'tooltip')
+  .style('opacity', 0);
+
 d3.select('svg')
   .attr("width", w)
   .attr("height", h)
   .style('fill', 'green')
+
 
 // d3.select('g')
 // .attr("transformx" ,"50%")
@@ -56,6 +64,8 @@ for (let i=0; i<varianceArr.length; i++){
 
 varianceResultArr.shift()
 
+
+
   d3.select(".blocks")
   .selectAll("rect")
   .data(data)
@@ -63,7 +73,6 @@ varianceResultArr.shift()
   .attr("class", "cell")
   .attr("width", 4)
   .attr("height", 30)
-  .attr("stroke", "brown")
   .attr("x", ((d)=> padding*2 + (d.year - 1752) * 4))
   .attr("y", ((d)=> padding/2 + (d.month * 30)))
   .attr("fill", ((d, i) => varianceResultArr[i] < 3 ? "#483D8B" :
@@ -77,10 +86,22 @@ varianceResultArr.shift()
                            varianceResultArr[i] < 11 ? "#FF6347" :
                            varianceResultArr[i] < 12 ? "#8B0000" : "#800000"
                                           ))
+
   .attr("data-month", ((d)=> (d.month -= 1)))
   .attr("data-year",  ((d)=> (d.year)))
-  .attr("data-temp",  ((d, i) => varianceResultArr[i] ))
+  .attr("data-temp",  degreeHeat = () => ((d, i) => varianceResultArr[i] ))
+  .on('mouseover', ((event, item)=>{
+    div.style('opacity', 0.9);
+    div.attr('data-year',  [item][0].year)
+    div.html(
+      JSON.stringify([item][0].year))
+      .style('left', event.pageX + 50 + 'px')
+      .style('top', event.pageY - 28 + 'px')
+  }))
 
+  .on('mouseout', function () {
+    div.style('opacity', 0);
+  })
 }
 
 const generateScales = () => {
@@ -118,22 +139,20 @@ const generateScales = () => {
   //   dotArr.push([scattArr[i][0], totalSecondsArr[i], scattArr[i][2], scattArr[i][1], scattArr[i][3], scattArr[i][4], scattArr[i][5]])}  
 
   xAxisScale = d3.scaleLinear()
-    .domain([1752, 2016])
-    .range([padding*2+4, w - padding*1.5-8])
+    .domain([new Date(1753,0,1), new Date(2016,0,1)])
+    .range([254, 0+254+1048])
   
   yAxisScale = d3.scaleTime()
-  .domain([new Date(2023, 0, 1), new Date(2023, 10, 31)])
-  //.domain([d3.min(monthArr),d3.max(monthArr)])
+    .domain([new Date(2023, 0, 1), new Date(2023, 10, 31)])
     .range([padding+15, h-padding-5])
 }
 
 const  generateAxes = () =>{
   let xAxis = d3.axisBottom(xAxisScale)
-                .tickFormat(d3.format("d"));
+                .tickFormat(d3.timeFormat("%Y"));
+
   let yAxis = d3.axisLeft(yAxisScale)
                 .tickFormat(d3.timeFormat("%B"))
-                //.ticks(12)
-                //.tickValues(["January","February","March","April","May","June","July", "August","September","October","November","December"])
 
 d3.select("svg")
   .append("g")
