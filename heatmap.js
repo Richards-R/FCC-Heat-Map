@@ -27,6 +27,7 @@ console.log(dataObj[1].year)
   drawRects()
   generateScales()
   generateAxes()
+  //generateLegend()
 }
 
 const w = 1500
@@ -42,9 +43,7 @@ var div = d3.select('body')
 d3.select('svg')
   .attr("width", w)
   .attr("height", h)
-  .style('fill', 'green')
-
-
+ 
 // d3.select('g')
 // .attr("transformx" ,"50%")
 
@@ -116,31 +115,14 @@ const generateScales = () => {
   let numArr =[ 1,  2,  3 , 4 , 5,  6,  7,  8,  9, 10, 11, 12]
 
   console.log(numArr)   
-  
-  
 
-  // timeArr = scattArr.map((item) => {
-  //   return (item[1]).split(":")
-  //   });
-                                  
-  // totalSecondsArr = (timeArr.map((item) => {
-  //   return (parseInt(item[0]) *60)+(parseInt(item[1]))
-  //   }))
-   
-  // xScale = d3.scaleLinear()
-  //   .domain([1753, 2015])
-  //   .range([padding*2, w - padding*2]);
+  // xAxisScale = d3.scaleTime()
+  //   .domain([new Date(1753,0,31),new Date(2014,11,31)])
+  //   .range([padding+6, padding+6+1048])
 
-  //  yScale = d3.scaleLinear()
-  //     .domain([0, d3.max(totalSecondsArr)])
-  //     .range([0, h - (2*padding)]);
-              
-  // for (let i=0; i<json.length; i++){
-  //   dotArr.push([scattArr[i][0], totalSecondsArr[i], scattArr[i][2], scattArr[i][1], scattArr[i][3], scattArr[i][4], scattArr[i][5]])}  
-
-  xAxisScale = d3.scaleLinear()
-    .domain([new Date(1753,0,1), new Date(2016,0,1)])
-    .range([254, 0+254+1048])
+    xAxisScale = d3.scaleLinear()
+    .domain([Number(1753), Number(2015)])
+    .range([padding+4, padding+4+1048])
   
   yAxisScale = d3.scaleTime()
     .domain([new Date(2023, 0, 1), new Date(2023, 10, 31)])
@@ -149,7 +131,7 @@ const generateScales = () => {
 
 const  generateAxes = () =>{
   let xAxis = d3.axisBottom(xAxisScale)
-                .tickFormat(d3.timeFormat("%Y"));
+                .tickFormat(d3.format("d"));
 
   let yAxis = d3.axisLeft(yAxisScale)
                 .tickFormat(d3.timeFormat("%B"))
@@ -158,12 +140,29 @@ d3.select("svg")
   .append("g")
     .call(xAxis)
     .attr("stroke","brown")
-    .attr("transform", "translate(0," + (h - padding-22) + ")")
+    .attr("transform", "translate (" + padding +", "+ (h - padding-22) + ")")
     .attr('id','x-axis')
 
   .append("g")
     .call(yAxis)
-    .attr("transform", "translate (" + (padding*2+3) + ", -485)")
+    .attr("transform", "translate ("+ padding +", -485)")
     .attr('id','y-axis')
 }
+
+legendAxisScale = d3.scaleLinear()
+    .domain([2,12]).nice()
+    .range([0, 200])
+
+let legendAxis = d3.axisBottom(legendAxisScale)
+    .tickFormat(d3.format("d"))
+
+    d3.select("svg")
+    .append("g")
+    .call(legendAxis)
+    .attr("transform", "translate (300, 520)")
+    .attr('id','l-axis')
+
+
+
+
 
