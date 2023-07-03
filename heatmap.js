@@ -94,7 +94,7 @@ varianceResultArr.shift()
     div.attr('data-year',  [item][0].year)
     div.html(
       JSON.stringify([item][0].year))
-      .style('left', event.pageX + 50 + 'px')
+      .style('left', event.pageX + 40 + 'px')
       .style('top', event.pageY - 28 + 'px')
   }))
 
@@ -104,10 +104,11 @@ varianceResultArr.shift()
 }
 
 const generateScales = () => {
- for (let i=0; i<data.length; i++){
-    yearArr.push(i+1753)
+ 
+  for (let i=0; i<data.length; i++){
+    yearArr.push(data[i].year)
   };
-  console.log(yearArr)   
+  console.log(yearArr[1])   
   
   let monthArr = ["January","February","March","April","May","June","July",
   "August","September","October","November","December"];
@@ -117,12 +118,17 @@ const generateScales = () => {
   console.log(numArr)   
 
   // xAxisScale = d3.scaleTime()
-  //   .domain([new Date(1753,0,31),new Date(2014,11,31)])
-  //   .range([padding+6, padding+6+1048])
+  //   .domain([new Date(1750,0,31),new Date(2016,11,31)])
+  //   .range([padding-8, padding+12+1048])
+
+  //  xAxisScale = d3.scaleTime()
+  //   .domain([d3.min(yearArr), d3.max(yearArr)])
+  //   .range([padding+5, padding+5+1048])
 
     xAxisScale = d3.scaleLinear()
-    .domain([Number(1753), Number(2015)])
-    .range([padding+4, padding+4+1048])
+    .domain([d3.min(yearArr), d3.max(yearArr)])
+    .range([padding+6, padding+6+1048])
+  
   
   yAxisScale = d3.scaleTime()
     .domain([new Date(2023, 0, 1), new Date(2023, 10, 31)])
@@ -131,7 +137,8 @@ const generateScales = () => {
 
 const  generateAxes = () =>{
   let xAxis = d3.axisBottom(xAxisScale)
-                .tickFormat(d3.format("d"));
+                .tickFormat(d3.format('d'))
+                .ticks(30);
 
   let yAxis = d3.axisLeft(yAxisScale)
                 .tickFormat(d3.timeFormat("%B"))
