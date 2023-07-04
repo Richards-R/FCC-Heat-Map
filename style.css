@@ -3,55 +3,43 @@ html{
 }
 
 body {
-  background-color: #E0E3F0;
+  background-color: #edf0e0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100%;
-  color: #163D57
+  color: rgb(121, 17, 17);
 }
 
 h1{
+  position: relative;
+  padding: 0;
   text-align: center;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family:sans-serif;
   color: brown;
   font-size: 1.5em;
 }
 
 h2{
+  position: relative;
+  margin: 0;
   font-size: 1em;
   color: brown;
   text-align: center;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.rect:hover {
-  fill:rgb(40, 229, 59)
+  font-family:sans-serif;
 }
 
 #tooltip {
+  visibility: hidden;
   position: absolute;
   padding: 10px;
   font: 14px sans-serif;
-  color: rgb(4, 5, 6);
   background: linear-gradient(0.125turn, #eed709, #d0372a);
   border: 0px;
   border-radius: 8px;
-  pointer-events: none;
   box-shadow: 0 0 5px 5px rgb(248, 248, 245);
 }
-
-#tooltip{
-  visibility: hidden;
-  height: auto;
-  width: auto;
-  margin-top: 2px;
-  color: #163D57;
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
 
 .cell:hover {
   fill:rgb(40, 229, 59)
@@ -61,37 +49,5 @@ h2{
   position: absolute;
   border: 0px;
   height: 10px;
-  width: 40px
+  width: 20px
 }
-
-
-
-/* body{
-  margin:0;
-}
-
-h1, h2{
-  text-align: center;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
-  color: brown;
-}
-
-.rect:hover {
-  fill:rgb(40, 229, 59)
-}
-
-#tooltip {
-  position: absolute;
-  padding: 10px;
-  font: 14px sans-serif;
-  color: rgb(4, 5, 6);
-  background: linear-gradient(0.125turn, #eed709, #d0372a);
-  border: 0px;
-  border-radius: 8px;
-  pointer-events: none;
-  box-shadow: 0 0 5px 5px rgb(248, 248, 245);
-}
- */
-
-
-
