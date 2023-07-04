@@ -129,11 +129,7 @@ let generateAxes = () => {
         .call(yAxis)
         .attr('id', 'y-axis')
         .attr('transform', 'translate(' + padding + ', 0)')
-    
-    svg.append('g')
-        
-        .attr('id', 'legend')
-        
+          
 
 }
 
@@ -151,6 +147,20 @@ req.onload = () => {
     
 }
 req.send()
+
+legendAxisScale = d3.scaleLinear()
+    .domain([2,12]).nice()
+    .range([0, 200])
+
+let legendAxis = d3.axisBottom(legendAxisScale)
+    .tickFormat(d3.format("d"))
+    .ticks(6)
+
+    d3.select("svg")
+    .append("g")
+    .call(legendAxis)
+    .attr("transform", "translate (60, 580)")
+    .attr('id','l-axis')
 
 
 
@@ -312,18 +322,7 @@ req.send()
 //     .attr('id','y-axis')
 // }
 
-// legendAxisScale = d3.scaleLinear()
-//     .domain([2,12]).nice()
-//     .range([0, 200])
 
-// let legendAxis = d3.axisBottom(legendAxisScale)
-//     .tickFormat(d3.format("d"))
-
-//     d3.select("svg")
-//     .append("g")
-//     .call(legendAxis)
-//     .attr("transform", "translate (300, 520)")
-//     .attr('id','l-axis')
 
 
 

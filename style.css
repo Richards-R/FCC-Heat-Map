@@ -12,10 +12,18 @@ body {
   color: #163D57
 }
 
-h1, h2{
+h1{
   text-align: center;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   color: brown;
+  font-size: 1.5em;
+}
+
+h2{
+  font-size: 1em;
+  color: brown;
+  text-align: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .rect:hover {
@@ -52,7 +60,7 @@ h1, h2{
 .legend {
   position: absolute;
   border: 0px;
-  height: 20px;
+  height: 10px;
   width: 40px
 }
 
@@ -82,18 +90,6 @@ h1, h2{
   border-radius: 8px;
   pointer-events: none;
   box-shadow: 0 0 5px 5px rgb(248, 248, 245);
-}
-
-
-.cell:hover {
-  fill:rgb(40, 229, 59)
-}
-
-.legend {
-  position: absolute;
-  border: 0px;
-  height: 20px;
-  width: 40px
 }
  */
 
