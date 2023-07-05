@@ -20,8 +20,8 @@ let svg = d3.select('svg')
 let tooltip = d3.select('#tooltip')
 
 let generateScales = () => {
-  let minYear = d3.min(dataArr, (item) => item['year'])
-  let maxYear = d3.max(dataArr, (item) => item['year'])
+  let minYear = d3.min(dataArr, (d) => d.year)
+  let maxYear = d3.max(dataArr, (d) => d.year)
 
   xScale = d3.scaleLinear()
               .domain([minYear, maxYear + 1])
@@ -53,45 +53,45 @@ let drawCells = () => {
         .join('rect')
         .attr('class','cell')
         .attr("fill", ((d, i) => 
-          baseTemp + d['variance'] < 2 ? "black" :
-          baseTemp + d['variance'] < 3 ? "#483D8B" :
-          baseTemp + d['variance'] < 4 ? "#4682B4" :
-          baseTemp + d['variance'] < 5 ? "#5F9EA0" :
-          baseTemp + d['variance'] < 6 ? "#66CDAA" :
-          baseTemp + d['variance'] < 7 ? "#EEE8AA" :
-          baseTemp + d['variance'] < 8 ? "#FFD700" :
-          baseTemp + d['variance'] < 9 ? "#FF6347" :
-          baseTemp + d['variance'] < 10 ? "#DC143C" :
-          baseTemp + d['variance'] < 11 ? "#FF4500" :
-          baseTemp + d['variance'] < 12 ? "brown" : 
+          baseTemp + d.variance < 2 ? "black" :
+          baseTemp + d.variance < 3 ? "#483D8B" :
+          baseTemp + d.variance < 4 ? "#4682B4" :
+          baseTemp + d.variance < 5 ? "#5F9EA0" :
+          baseTemp + d.variance < 6 ? "#66CDAA" :
+          baseTemp + d.variance < 7 ? "#EEE8AA" :
+          baseTemp + d.variance < 8 ? "#FFD700" :
+          baseTemp + d.variance < 9 ? "#FF6347" :
+          baseTemp + d.variance < 10 ? "#DC143C" :
+          baseTemp + d.variance < 11 ? "#FF4500" :
+          baseTemp + d.variance < 12 ? "brown" : 
           "#8B0000"
         ))
-        .attr('data-year', (item) => item['year'])
-        .attr('data-month', (item) => item['month'] - 1)
-        .attr('data-temp', (item) => baseTemp + item['variance'])
-        .attr('width', (item) => {
-          let minYear = d3.min(dataArr, (item) => item['year'])            
-          let maxYear = d3.max(dataArr, (item) => item['year'])
+        .attr('data-year', (d) => d.year)
+        .attr('data-month', (d) => d.month - 1)
+        .attr('data-temp', (d) => baseTemp + d.variance)
+        .attr('width', () => {
+          let minYear = d3.min(dataArr, (d) => d['year'])            
+          let maxYear = d3.max(dataArr, (d) => d['year'])
           let yearCount = maxYear - minYear
           return (width - (2 * padding)) / yearCount
       })
-        .attr('height', (item)=> (height - (2 * padding)) / 12)
-        .attr('x', (item) => xScale(item['year']))
-        .attr('y', (item) => yScale(new Date(0, item['month']-1, 0, 0, 0, 0, 0)))
+        .attr('height', (height - (2 * padding)) / 12)
+        .attr('x', (d) => xScale(d.year))
+        .attr('y', (d) => yScale(new Date(0, d.month -1, 0, 0, 0, 0, 0)))
         
 
         .on('mouseover', (event,item) => {
             tooltip.style('visibility', 'visible')
-                    .attr('data-year', parseInt(item['year']))
+                    .attr('data-year', parseInt(item.year))
                     .style('left', event.pageX + 40 + 'px')
                     .style('top', event.pageY - 28 + 'px')
             
             let monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"]
         
-            tooltip.html(monthNames[item['month'] -1 ] + ' '
-             + item['year']+ ' <br> Avg temp. '
-             + (baseTemp + item['variance']).toPrecision(3))             
+            tooltip.html(monthNames[item.month -1 ] + ' '
+             + item.year + ' <br> Avg temp. '
+             + (baseTemp + item.variance).toPrecision(3))             
         })
         .on('mouseout', (event, item) => {
             tooltip.style('visibility', 'hidden')
